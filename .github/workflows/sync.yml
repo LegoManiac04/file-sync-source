@@ -14,8 +14,8 @@ jobs:
       - name: Get files from other repo
         run: |
           git clone https://github.com/LegoManiac04/file-sync.git
-          mv ./test/folder/* file-sync/test/folder/
-          mv ./test/* file-sync/test/
+          rm -R file-sync/test/*
+          mv ./test/* file-sync/test
           
       - name: Setup git config
         run: |
