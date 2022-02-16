@@ -6,12 +6,9 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
-
-      - name: webhook
-        run: |
-          curl -X POST https://api.github.com/repos/LegoManiac04/file-sync/dispatches \
-          -H 'Accept: application/vnd.github.v3+json" \
-          -H 'Authorization: token $TOKEN' \
-          --data '{"event_type": event_type"}'
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          repository: LegoManiac04/file-sync
+          event-type: event_type
