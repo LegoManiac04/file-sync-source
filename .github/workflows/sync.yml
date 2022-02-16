@@ -1,4 +1,4 @@
-name: File Sync
+name: Sync
 on:
   push
 
@@ -6,24 +6,9 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
-
-      - name: Get files from other repo
-        run: |
-          git clone https://github.com/LegoManiac04/file-sync.git
-          rm -R file-sync/test/*
-          mv ./test/* file-sync/test
-          
-      - name: Setup git config
-        run: |
-          git config user.name "qpocketbot"
-          git config user.email ${{ secrets.MY_EMAIL }}
-      - name: Commit
-        run: |
-          # Stage the file, commit and push
-          git add .
-          git diff-index --quiet HEAD || git commit -m "Updated Files"
-          git push
+          repository: LegoManiac04/file-sync
+          event-type: file_sync
