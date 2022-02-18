@@ -2,13 +2,13 @@ name: Sync
 on:
   push
 
-jobs:
+obs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
-          repository: LegoManiac04/file-sync
-          event-type: file_sync
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Sync
+        run: |
+          curl -H "Accept: application/vnd.github+json" -H "Authorization: token ${{ secrets.REPO_ACCESS_TOKEN }}" --request POST --data '{"event_type": "file_sync"}' https://api.github.com/repos/LegoManiac04/file-sync/dispatches
